@@ -1,6 +1,6 @@
-package Lecture_3;
+package Lecture_3_1;
 
-public class Solution_1 {
+public class Solution {
     public static void main(String[] args) {
         //это пример вывода
         ATable aTable = new ATable() {
