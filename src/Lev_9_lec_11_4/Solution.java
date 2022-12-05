@@ -13,9 +13,9 @@ public class Solution {
     public static void main(String[] args) throws IOException {
         getKeyVithMaxVal(args[0]).forEach(System.out::println);
     }
-    public static Set<String> getKeyVithMaxVal(String path) throws IOException {
+    public static List<String> getKeyVithMaxVal(String path) throws IOException {
         Map<String, Double> map = new TreeMap<>();
-        Set<String> treeSet = new TreeSet<>();
+        List<String> list = new ArrayList<>();
         double maxVal = 0;
         try (BufferedReader bRF = new BufferedReader(new FileReader(path))) {
             while (bRF.ready()) {
@@ -32,6 +32,6 @@ public class Solution {
 
         for (String x : map.keySet()) {
             if (map.get(x).equals(maxVal)) {
-                treeSet.add(x); } }
-        return treeSet; }
+                list.add(x); } }
+        return list; }
 }
