@@ -32,7 +32,6 @@ public class Solution {
                 listResut.add(strArr[i]); } }
         return listResut;
     }
-
     public static void writeToFile(String path, List<String> list) throws IOException {
         try (BufferedWriter bW = new BufferedWriter(new FileWriter(path))) {
             for (int i = 0; i < list.size(); i++) {
