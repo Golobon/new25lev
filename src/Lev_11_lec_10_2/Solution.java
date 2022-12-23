@@ -7,55 +7,46 @@ import java.io.*;
 */
 
 public class Solution implements Serializable {
-    public static class A {
+    private String task;
+    private String description;
 
-        protected String nameA = "A";
-
-        public A(String nameA) {
-            this.nameA += nameA;
-        }
-        public A() {
-        }
+    public Solution(String task, String description) {
+        this.task = task;
+        this.description = description;
     }
 
-    public class B extends A implements Serializable {
+    @Serial
+    private void writeObject(ObjectOutputStream out) throws IOException {
+        out.defaultWriteObject();
+        System.out.println("Our writeObject");
+    }
 
-        private String nameB;
+    @Serial
+    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
+        in.defaultReadObject();
+        System.out.println("Our readObject");
+    }
 
-//        public B() {
-//            super();
-//        }
-        public B(String nameA, String nameB) {
-            super(nameA);
-            this.nameA += nameA;
-            this.nameB = nameB;
-        }
 
-        private void writeObject (ObjectOutputStream o) throws IOException {
-            o.defaultWriteObject();
-            o.writeObject(this.nameA);
-        }
-
-        private void readObject (ObjectInputStream o) throws IOException, ClassNotFoundException {
-            o.defaultReadObject();
-            this.nameA = (String) o.readObject();
-        }
+    @Override
+    public String toString() {
+        return "Solution{" +
+                "task='" + task + '\'' +
+                ", description='" + description + '\'' +
+                '}';
     }
 
     public static void main(String[] args) throws IOException, ClassNotFoundException {
-        ByteArrayOutputStream arrayOutputStream = new ByteArrayOutputStream();
-        ObjectOutputStream oos = new ObjectOutputStream(arrayOutputStream);
+        Solution partizanka = new Solution("1409", "Serializable task");
+        System.out.println("Before: \n" + partizanka);
 
-        Solution solution = new Solution();
-        B b = solution.new B("B2", "C33");
-        System.out.println("nameA: " + b.nameA + ", nameB: " + b.nameB);
+        ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("Solution.out"));
+        out.writeObject(partizanka);
+        out.close();
 
-        oos.writeObject(b);
+        ObjectInputStream in = new ObjectInputStream(new FileInputStream("Solution.out"));
+        partizanka = (Solution) in.readObject();
 
-        ByteArrayInputStream arrayInputStream = new ByteArrayInputStream(arrayOutputStream.toByteArray());
-        ObjectInputStream ois = new ObjectInputStream(arrayInputStream);
-
-        B b1 = (B) ois.readObject();
-        System.out.println("nameA: " + b1.nameA + ", nameB: " + b1.nameB);
+        System.out.println("After: \n" + partizanka);
     }
 }
