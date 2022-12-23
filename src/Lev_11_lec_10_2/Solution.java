@@ -3,52 +3,59 @@ package Lev_11_lec_10_2;
 import java.io.*;
 
 /*
-Минимум изменений
+Найти ошибки
 */
 
-public class Solution {
-    public class A implements Serializable {
-        String name = "A";
+public class Solution implements Serializable {
+    public static class A {
 
-        public A(String name) {
-            this.name += name;
+        protected String nameA = "A";
+
+        public A(String nameA) {
+            this.nameA += nameA;
         }
-
-        @Override
-        public String toString() {
-            return name;
+        public A() {
         }
     }
 
-    public class B extends A {
-        String name = "B";
+    public class B extends A implements Serializable {
 
-        public B(String name) {
-            super(name);
-            this.name += name;
+        private String nameB;
+
+//        public B() {
+//            super();
+//        }
+        public B(String nameA, String nameB) {
+            super(nameA);
+            this.nameA += nameA;
+            this.nameB = nameB;
+        }
+
+        private void writeObject (ObjectOutputStream o) throws IOException {
+            o.defaultWriteObject();
+            o.writeObject(this.nameA);
+        }
+
+        private void readObject (ObjectInputStream o) throws IOException, ClassNotFoundException {
+            o.defaultReadObject();
+            this.nameA = (String) o.readObject();
         }
     }
 
-    public class C extends B implements Externalizable {
-        String name = "C";
+    public static void main(String[] args) throws IOException, ClassNotFoundException {
+        ByteArrayOutputStream arrayOutputStream = new ByteArrayOutputStream();
+        ObjectOutputStream oos = new ObjectOutputStream(arrayOutputStream);
 
-        public C(String name) {
-            super(name);
-            this.name = name;
-        }
+        Solution solution = new Solution();
+        B b = solution.new B("B2", "C33");
+        System.out.println("nameA: " + b.nameA + ", nameB: " + b.nameB);
 
-        @Override
-        public void writeExternal(ObjectOutput out) throws IOException {
+        oos.writeObject(b);
 
-        }
+        ByteArrayInputStream arrayInputStream = new ByteArrayInputStream(arrayOutputStream.toByteArray());
+        ObjectInputStream ois = new ObjectInputStream(arrayInputStream);
 
-        @Override
-        public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
-
-        }
-    }
-
-    public static void main(String[] args) {
-
+        B b1 = (B) ois.readObject();
+        System.out.println("nameA: " + b1.nameA + ", nameB: " + b1.nameB);
     }
 }
