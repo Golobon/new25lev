@@ -1,14 +1,10 @@
 package Lev_28_lec_2_1;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.file.*;
-import java.nio.file.attribute.BasicFileAttributes;
-import java.util.Arrays;
-import java.util.EnumSet;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 
 /*
 Проход по дереву файлов
@@ -16,25 +12,39 @@ import java.util.TreeMap;
 
 public class Solution {
     public static void main(String[] args) throws IOException {
-        System.out.println(args[0] + "\n" + args[1]);
+
         File path = new File(args[0]);
         File source = new File(args[1]);
 
-        System.out.println(source.getName());
-        System.out.println(source.getParent());
-        System.out.println(source.getPath());
-        System.out.println(source.getAbsolutePath());
-        System.out.println(source.getAbsoluteFile());
-        System.out.println(source.getCanonicalFile());
-        System.out.println(source.getAbsolutePath());
-
-        System.out.println(Arrays.toString(path.listFiles()));
-
         File destination  = new File(source.getParent() + "\\" + "allFilesContent.txt");
 
-        System.out.println(destination);
         FileUtils.renameFile(source, destination);
 
-        System.out.println(destination.length());
+        List<String> result = new ArrayList<>();
+        Queue<File> fileTree = new PriorityQueue<>();
+
+        Collections.addAll(fileTree, Objects.requireNonNull(path.listFiles()));
+
+        while (!fileTree.isEmpty())
+        {
+            File currentFile = fileTree.remove();
+            if(currentFile.isDirectory()){
+                Collections.addAll(fileTree, Objects.requireNonNull(currentFile.listFiles()));
+            } else {
+                if (currentFile.length() > 50 && !currentFile.getName().equals(destination.getName())) result.add(currentFile.getAbsolutePath());
+            }
+        }
+
+        FileInputStream fIS = null;
+        FileOutputStream fOS = new FileOutputStream(destination);
+        for (String f : result) {
+            fIS = new FileInputStream(f);
+            while (fIS.available() >0) {
+                fOS.write(fIS.read());
+            }
+            fOS.write("\n".getBytes());
+        }
+        if (fIS != null) fIS.close();
+        fOS.close();
     }
 }
