@@ -1,41 +1,106 @@
 package Lecture_3_1;
 
+import java.io.*;
+import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+
+/*
+Читаем и пишем в файл: JavaRush
+*/
 
 public class Solution {
     public static void main(String[] args) {
-        List<Long> list = new ArrayList<>();
+        //you can find your_file_name.tmp in your TMP directory or adjust outputStream/inputStream according to your file's actual location
+        //вы можете найти your_file_name.tmp в папке TMP или исправьте outputStream/inputStream в соответствии с путем к вашему реальному файлу
+        try {
+            File yourFile = File.createTempFile("your_file_name", null);
+            OutputStream outputStream = new FileOutputStream(yourFile);
+            InputStream inputStream = new FileInputStream(yourFile);
 
-        for (int i = 369; i < 372; i++) {
-            //System.out.println("Идет число " + i);
-            int xLenth = String.valueOf(i).length();
-            long val = 1;
-            long val2 = 0;
-            //System.out.println(xLenth);
-            char[] ch = String.valueOf(i).toCharArray();
-            //System.out.println(ch);
-            for (int i1 = 0; i1 < xLenth; i1++) {
-                int y = Integer.parseInt(String.valueOf(ch[i1]));
-                //System.out.println("виток " + y);
-                for (int i2 = 0; i2 < xLenth; i2++) {
-                    val = val * y;
+            JavaRush javaRush = new JavaRush();
+            //initialize users field for the javaRush object here - инициализируйте поле users для объекта javaRush тут
+            javaRush.save(outputStream);
+            outputStream.flush();
+
+            JavaRush loadedObject = new JavaRush();
+            loadedObject.load(inputStream);
+            //here check that the javaRush object is equal to the loadedObject object - проверьте тут, что javaRush и loadedObject равны
+
+            outputStream.close();
+            inputStream.close();
+
+        } catch (IOException e) {
+            //e.printStackTrace();
+            System.out.println("Oops, something is wrong with my file");
+        } catch (Exception e) {
+            //e.printStackTrace();
+            System.out.println("Oops, something is wrong with the save/load method");
+        }
+    }
+
+    public static class JavaRush {
+        public List<User> users = new ArrayList<>();
+
+        public void save(OutputStream outputStream) throws Exception {
+            PrintWriter writer = new PrintWriter(outputStream);
+            if (users.size() == 0) {
+                return;
+            }
+            for (User user : users) {
+                writer.println(user.getFirstName() + "/"
+                        + user.getLastName() + "/"
+                        + user.getBirthDate().getTime() + "/"
+                        + user.isMale() + "/"
+                        + user.getCountry() + "/");
+            }
+            writer.close();
+        }
+
+        public void load(InputStream inputStream) throws Exception {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] params = reader.readLine().split("/");
+                if (params.length < 5) {
+                    break;
                 }
-                //System.out.println(val);
-                val2 = val2 + val;
-                //System.out.println(val2);
-                val = 1;
+                User user = new User();
+                user.setFirstName(params[0]);
+                user.setLastName(params[1]);
+                user.setBirthDate(new Date(Long.parseLong(params[2])));
+                user.setMale(Boolean.parseBoolean(params[3]));
+                switch (params[4]) {
+                    case "UKRAINE":
+                        user.setCountry(User.Country.UKRAINE);
+                        break;
+                    case "RUSSIA":
+                        user.setCountry(User.Country.RUSSIA);
+                        break;
+                    default:
+                        user.setCountry(User.Country.OTHER);
+                        break;
+                }
+                this.users.add(user);
             }
-            if (i == val2) {
-                list.add(val2);
-                val2 = 0;
-            }
+            reader.close();
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+
+            JavaRush javaRush = (JavaRush) o;
+
+            return users != null ? users.equals(javaRush.users) : javaRush.users == null;
 
         }
-        Long[] i = list.toArray(new Long[0]);
-        list.forEach(System.out::println);
-        for (long l : i) {
-            System.out.println(l);
+
+        @Override
+        public int hashCode() {
+            return users != null ? users.hashCode() : 0;
         }
     }
 }
