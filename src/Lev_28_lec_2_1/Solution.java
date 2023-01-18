@@ -16,7 +16,7 @@ public class Solution {
         File path = new File(args[0]);
         File source = new File(args[1]);
 
-        File destination  = new File(source.getParent() + "\\" + "allFilesContent.txt");
+        File destination  = new File(source.getParent() + "\\" + "Пушин пушок.txt");
 
         FileUtils.renameFile(source, destination);
 
