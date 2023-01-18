@@ -56,8 +56,8 @@ public class SearchFileVisitor extends SimpleFileVisitor<Path> {
 
         if (pON && file.getFileName().toString().contains(PartOfName)) count--;
         if (pOC && contentStr.contains(PartOfContent)) count--;
-        if (minS && new File(String.valueOf(file)).length() >= MinSize) count--;
-        if (maxS && new File(String.valueOf(file)).length() <= MaxSize) count--;
+        if (minS && new File(String.valueOf(file)).length() > MinSize) count--;
+        if (maxS && new File(String.valueOf(file)).length() < MaxSize) count--;
 
         if (count == 0) getFoundFiles().add(file);
 

@@ -15,10 +15,10 @@ public class Solution {
     public static void main(String[] args) throws IOException {
         SearchFileVisitor searchFileVisitor = new SearchFileVisitor();
 
-        //searchFileVisitor.setPartOfName("3");
-        searchFileVisitor.setPartOfContent("Bob");
-        //searchFileVisitor.setMinSize(50);
-        //searchFileVisitor.setMaxSize(10000);
+        searchFileVisitor.setPartOfName("");
+        searchFileVisitor.setPartOfContent("");
+        searchFileVisitor.setMinSize(0);
+        searchFileVisitor.setMaxSize(0);
 
         Files.walkFileTree(Paths.get("C:\\Users\\Администратор\\Desktop\\Java\\1"), searchFileVisitor);
 
