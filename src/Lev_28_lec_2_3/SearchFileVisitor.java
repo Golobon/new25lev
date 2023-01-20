@@ -1,6 +1,5 @@
 package Lev_28_lec_2_3;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
@@ -11,10 +10,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SearchFileVisitor extends SimpleFileVisitor<Path> {
-    private String PartOfName;
-    private String PartOfContent;
-    private int MinSize;
-    private int MaxSize;
+    private String partOfName;
+    private String partOfContent;
+    private int minSize;
+    private int maxSize;
     private List<Path> foundFiles = new ArrayList<>();
 
     public List<Path> getFoundFiles() {
@@ -22,42 +21,41 @@ public class SearchFileVisitor extends SimpleFileVisitor<Path> {
     }
 
     public void setPartOfName(String partOfName) {
-        PartOfName = partOfName;
+        this.partOfName = partOfName;
     }
 
     public void setPartOfContent(String partOfContent) {
-        PartOfContent = partOfContent;
+        this.partOfContent = partOfContent;
     }
 
     public void setMinSize(int minSize) {
-        MinSize = minSize;
+        this.minSize = minSize;
     }
 
-    public void setMaxSize(int maxSize) {
-        MaxSize = maxSize;
-    }
+    public void setMaxSize(int maxSize) { this.maxSize = maxSize; }
 
     @Override
     public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+
         boolean pON = false;
         boolean pOC = false;
         boolean minS = false;
         boolean maxS = false;
         int count = -1;
-        if (PartOfName != null || PartOfContent != null || MinSize != 0 || MaxSize != 0) count++;
+        if (partOfName != null || partOfContent != null || minSize != 0 || maxSize != 0) count++;
 
         byte[] content = Files.readAllBytes(file); // размер файла: content.length
         String contentStr = new String(content);
 
-        if (PartOfName != null) { pON = true; count++; }
-        if (PartOfContent != null) { pOC = true; count++; }
-        if (MinSize != 0) { minS = true; count++; }
-        if (MaxSize != 0) { maxS = true; count++; }
+        if (partOfName != null) { pON = true; count++; }
+        if (partOfContent != null) { pOC = true; count++; }
+        if (minSize != 0) { minS = true; count++; }
+        if (maxSize != 0) { maxS = true; count++; }
 
-        if (pON && file.getFileName().toString().contains(PartOfName)) count--;
-        if (pOC && contentStr.contains(PartOfContent)) count--;
-        if (minS && new File(String.valueOf(file)).length() > MinSize) count--;
-        if (maxS && new File(String.valueOf(file)).length() < MaxSize) count--;
+        if (pON && file.getFileName().toString().contains(partOfName)) count--;
+        if (pOC && contentStr.contains(partOfContent)) count--;
+        if (minS && content.length > minSize) count--;
+        if (maxS && content.length < maxSize) count--;
 
         if (count == 0) getFoundFiles().add(file);
 
