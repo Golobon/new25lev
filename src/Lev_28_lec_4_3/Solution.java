@@ -37,7 +37,7 @@ public class Solution {
 
         Files.copy(inpStrUrl, tempFile, StandardCopyOption.REPLACE_EXISTING);
 
-        Path newFileName = Path.of(downloadDirectory + "\\" + finFileName);
+        Path newFileName = new File(downloadDirectory + "\\" + finFileName).toPath();
 
         Files.move(tempFile, newFileName);
 
