@@ -37,6 +37,8 @@ public class SearchFileVisitor extends SimpleFileVisitor<Path> {
     @Override
     public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
 
+        System.out.println(file.toString());
+
         boolean pON = false;
         boolean pOC = false;
         boolean minS = false;

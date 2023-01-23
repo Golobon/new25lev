@@ -19,7 +19,7 @@ public class Solution {
         searchFileVisitor.setMinSize(0);
         searchFileVisitor.setMaxSize(0);
 
-        Path path = Path.of("C:\\Users\\Администратор\\Desktop\\Java\\1");
+        Path path = Path.of("C:\\Users\\G\\Desktop\\java\\1");
         Files.walkFileTree(path, searchFileVisitor);
 
         List<Path> foundFiles = searchFileVisitor.getFoundFiles();
