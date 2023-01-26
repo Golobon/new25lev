@@ -62,8 +62,8 @@ public class Sverka {
             }
         }
 
-//        E:\\3\\a
-//        E:\\3\\b
+//        E:\\3\\a - директории с файлами (было)
+//        E:\\3\\b - директории с файлами (стало)
 
 //        System.out.println();
         System.out.println("Новые файлы:");
