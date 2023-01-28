@@ -51,14 +51,20 @@ public class Solution_2 {
                         int bytesRead = fileInputStream.read(buffer);
                         fileOutputStream.write(buffer, 0, bytesRead); } } } }
 
+        //Разархивируем полученный zip файл и считываем его содержое в буффер
+
+        byte[] buffer;
+        try (FileInputStream fIS = new FileInputStream(outputFile);
+             ZipInputStream zIS = new ZipInputStream(fIS, Charset.forName("windows-1251"))) {
+            ZipEntry zE = zIS.getNextEntry();
+            buffer = new byte[(int) zE.getSize()];
+            for (int i = 0; i < buffer.length; i++) { buffer[i] = (byte) zIS.read(); } }
+
         //Создаем файл с именем, которое приходит в аргументах (args[0]) и
         //копируем в него все байты из буффера. На выходе получем склеенный
         //из кусочков zip файл
 
-        try (FileInputStream fIS = new FileInputStream(outputFile);
-             ZipInputStream zIS = new ZipInputStream(fIS, Charset.forName("windows-1251"));
-             FileOutputStream fOS = new FileOutputStream(args[0])) {
-            while (zIS.available() > 0) { fOS.write((byte) zIS.read()); } }
-
         File f = new File(outputFile);
-        f.delete(); } }
+        f.delete();
+
+        try (FileOutputStream fOS = new FileOutputStream(args[0])) { fOS.write(buffer); } } }
