@@ -15,8 +15,6 @@ import java.util.zip.ZipInputStream;
 public class Solution_2 {
     public static void main(String[] args) throws IOException {
 
-        int a;
-
         //Создаем сет, куда будем копировать все пути ко всем кусочкам,
         //составляющим окончательный файл. Через компаратор определяем
         //сортировку сета от меньшего к большему. Для этого сравниваем цифры
