@@ -70,7 +70,7 @@ public class Sverka {
         System.out.println();
 
         for (Path x : list2) {
-//            System.out.println(x);
+            System.out.println(x);
             list3.add(x.toString().substring(7));
         }
 
