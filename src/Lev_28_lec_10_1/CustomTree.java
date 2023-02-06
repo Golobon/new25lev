@@ -29,12 +29,7 @@ public class CustomTree extends AbstractList <String> implements Cloneable, Seri
     @Override
     public boolean add(String s) {
 
-        if (entryList.size() == 3) {
-            root.leftChild.availableToAddLeftChildren = true;
-            root.leftChild.availableToAddRightChildren = true;
-            root.rightChild.availableToAddLeftChildren = true;
-            root.rightChild.availableToAddRightChildren = true;
-        }
+        boolean canChild = false;
 
         for (Entry<String> x : entryList) {
 
@@ -45,14 +40,23 @@ public class CustomTree extends AbstractList <String> implements Cloneable, Seri
                     x.leftChild.parent = x;
                     entryList.add(x.leftChild);
                     x.availableToAddLeftChildren = false;
-                    return true; }
+                    canChild = true;
+                    return canChild; }
 
                 if (x.availableToAddRightChildren) {
                     x.rightChild = new Entry<>(s);
                     x.rightChild.parent = x;
                     entryList.add(x.rightChild);
                     x.availableToAddRightChildren = false;
-                    return true; } } }
+                    canChild = true;
+                    return canChild; } } }
+
+        if (!canChild) {
+            root.leftChild.availableToAddLeftChildren = true;
+            root.leftChild.availableToAddRightChildren = true;
+            root.rightChild.availableToAddLeftChildren = true;
+            root.rightChild.availableToAddRightChildren = true;
+        }
 
         return false; }
 
