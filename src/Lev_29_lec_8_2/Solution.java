@@ -29,9 +29,10 @@ public class Solution {
 
         System.out.format("%b %b %b\n", isItem, isBig, isSmall);
     }
-    public static SomeInterfaceWithMethods getProxy(Class ... c) {
-        SomeInterfaceWithMethods sIWMI = new SomeInterfaceWithMethodsImpl();
-        ClassLoader loader = sIWMI.getClass().getClassLoader();
-        Class[] interfaces = sIWMI.getClass().getInterfaces();
-        CustomInvocationHandler cIH = new CustomInvocationHandler(sIWMI);
-        return (SomeInterfaceWithMethods) Proxy.newProxyInstance(loader, interfaces, cIH); } }
+    public Item getProxy(Class cl, Class ... interf) {
+        Class[] interfaces = new Class[interf.length + 1];
+        interfaces[0] = cl;
+        for (int i = 0; i < interf.length; i++) { interfaces[i + 1] = interf[i]; }
+        return (Item) Proxy.newProxyInstance(this.getClass().getClassLoader(),
+                interfaces,
+                new ItemInvocationHandler()); } }
