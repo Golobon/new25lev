@@ -1,11 +1,10 @@
 package Test;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 public class Sverka {
     public static void main(String[] args) throws IOException {
@@ -74,9 +73,12 @@ public class Sverka {
             list3.add(x.toString().substring(7));
         }
 
+        FileWriter fW = new FileWriter("pathToCreateFile" + "\\Новые файлы.txt");
+
         for (String x : list3) {
-            System.out.println(x);
+            fW.write(x);
         }
+        fW.close();
     }
 }
 
