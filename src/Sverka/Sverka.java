@@ -1,10 +1,14 @@
 package Sverka;
 
-import java.io.*;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 public class Sverka {
     public static void getAfter(String PathFileBefore, String PathFileAfter, String PathToCreateFile) throws IOException {
@@ -14,7 +18,9 @@ public class Sverka {
         List<String> list3 = new ArrayList<>();
 
         Path path = Paths.get(PathFileBefore);
+        int pathLength = path.toString().length();
         Path path2 = Paths.get(PathFileAfter);
+        int path2Length = path2.toString().length();
         Files.walkFileTree(path, new SimpleFileVisitor<Path>() {
             @Override
             public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) {
@@ -38,10 +44,10 @@ public class Sverka {
 
         for (int i = 0; i < list1.size(); i++) {
             for (int b = 0; b < list2.size(); b++) {
-                if (list1.get(i).toString().substring(6).equals(list2.get(b).toString().substring(6))) {
-//                    System.out.println(list1.get(i).toString().substring(6));
-//                    System.out.println(list2.get(b).toString().substring(6));
-//                    System.out.println(list1.get(i).toString().substring(6).equals(list2.get(b).toString().substring(6)));
+                if (list1.get(i).toString().substring(pathLength).equals(list2.get(b).toString().substring(path2Length))) {
+//                    System.out.println(list1.get(i).toString().substring(pathLength));
+//                    System.out.println(list2.get(b).toString().substring(path2Length));
+//                    System.out.println(list1.get(i).toString().substring(pathLength).equals(list2.get(b).toString().substring(path2Length)));
                     list2.remove(list2.get(b)); b--;
                 }
             }
@@ -68,7 +74,7 @@ public class Sverka {
 
         for (Path x : list2) {
 //            System.out.println(x);
-            list3.add(x.toString().substring(7));
+            list3.add(x.toString().substring(path2Length + 1));
         }
 
         SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd 'at' HH-mm-ss z");
@@ -77,8 +83,12 @@ public class Sverka {
 
         FileWriter fW = new FileWriter(PathToCreateFile + "\\Новые файлы на " + sss + ".txt");
         BufferedWriter bW = new BufferedWriter(fW);
+        int lineNum = 1;
         for (String x : list3) {
-            bW.write(x);
+            String lineNumStr = lineNum + ". ";
+            bW.write(lineNumStr + x + "\n");
+            lineNum = lineNum + 1;
+//            System.out.println(lineNum);
         }
         bW.flush();
         bW.close();
@@ -91,7 +101,9 @@ public class Sverka {
         List<String> list3 = new ArrayList<>();
 
         Path path2 = Paths.get(PathFileBefore);
+        int path2Length = path2.toString().length();
         Path path = Paths.get(PathFileAfter);
+        int pathLength = path.toString().length();
         Files.walkFileTree(path, new SimpleFileVisitor<Path>() {
             @Override
             public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) {
@@ -115,7 +127,7 @@ public class Sverka {
 
         for (int i = 0; i < list1.size(); i++) {
             for (int b = 0; b < list2.size(); b++) {
-                if (list1.get(i).toString().substring(6).equals(list2.get(b).toString().substring(6))) {
+                if (list1.get(i).toString().substring(pathLength).equals(list2.get(b).toString().substring(path2Length))) {
 //                    System.out.println(list1.get(i).toString().substring(6));
 //                    System.out.println(list2.get(b).toString().substring(6));
 //                    System.out.println(list1.get(i).toString().substring(6).equals(list2.get(b).toString().substring(6)));
@@ -145,7 +157,7 @@ public class Sverka {
 
         for (Path x : list2) {
 //            System.out.println(x);
-            list3.add(x.toString().substring(7));
+            list3.add(x.toString().substring(path2Length + 1));
         }
 
         SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd 'at' HH-mm-ss z");
@@ -154,8 +166,13 @@ public class Sverka {
 
         FileWriter fW = new FileWriter(PathToCreateFile + "\\Удаленные файлы на " + sss + ".txt");
         BufferedWriter bW = new BufferedWriter(fW);
+        int lineNum = 1;
+
         for (String x : list3) {
-            bW.write(x);
+            String lineNumStr = lineNum + ". ";
+            bW.write(lineNumStr + x + "\n");
+            lineNum = lineNum + 1;
+//            System.out.println(lineNum);
         }
         bW.flush();
         bW.close();
