@@ -4,6 +4,7 @@ public class Figure {
     private int x;
     private int y;
     private int[][] matrix;
+
     public int getX() { return x; }
 
     public int getY() { return y; }
@@ -16,10 +17,10 @@ public class Figure {
         this.matrix = matrix;
     }
 
-    public void left(){};
-    public void right(){};
-    public void down(){};
-    public void up(){};
+    public void left() { x--; if (!isCurrentPositionAvailable()) {x++;} }
+    public void right() { x++; if (!isCurrentPositionAvailable()) {x--;} }
+    public void down() { y++; if (!isCurrentPositionAvailable()) {y--;} }
+    public void up() { y--; if (!isCurrentPositionAvailable()) {y++;} }
     public void rotate(){};
     public void downMaximum(){};
     public boolean isCurrentPositionAvailable(){

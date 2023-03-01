@@ -2,23 +2,38 @@ package Lev_29_lec_15_1;
 
 import java.awt.event.KeyEvent;
 
+/**
+ * Класс Tetris - содержит основной функционал игры.
+ */
 public class Tetris {
-    private boolean isGameOver;
-    static Tetris game;
-    private Field field;
-    private Figure figure;
-    public Field getField() { return field; }
-    public Figure getFigure() { return figure; }
+    private Field field;                //Поле с клетками
+    private Figure figure;              //Фигурка
+
+    private boolean isGameOver;         //Игра Окончена?
 
     public Tetris(int width, int height) {
         field = new Field(width, height);
         figure = null;
     }
 
-    public static void main(String[] args) throws Exception {
-        game = new Tetris(10, 20);
-        game.run();
+    /**
+     * Геттер переменной field.
+     */
+    public Field getField() {
+        return field;
     }
+
+    /**
+     * Геттер переменной figure.
+     */
+    public Figure getFigure() {
+        return figure;
+    }
+
+    /**
+     * Основной цикл программы.
+     * Тут происходят все важные действия
+     */
     public void run() throws Exception {
         //Создаем объект "наблюдатель за клавиатурой" и стартуем его.
         KeyboardObserver keyboardObserver = new KeyboardObserver();
@@ -59,18 +74,25 @@ public class Tetris {
         //Выводим сообщение "Game Over"
         System.out.println("Game Over");
     }
+
     /**
      * Один шаг игры
      */
     public void step() {
+        figure.down();
         //опускам фигурку вниз
-
         //если разместить фигурку на текущем месте невозможно:
-        //поднимаем обратно
-        //приземляем
-        //удаляем заполненные линии
-        //создаем новую фигурку
-    }
+        if (!figure.isCurrentPositionAvailable()) {
+            //поднимаем обратно
+            figure.up();
+            //приземляем
+            figure.landed();
+            //удаляем заполненные линии
+            field.removeFullLines();
+            //создаем новую фигурку
+            figure = FigureFactory.createRandomFigure(field.getWidth() / 2, 0);
+        } }
+
     /**
      * Сеттер для figure
      */
@@ -83,5 +105,12 @@ public class Tetris {
      */
     public void setField(Field field) {
         this.field = field;
+    }
+
+    public static Tetris game;
+
+    public static void main(String[] args) throws Exception {
+        game = new Tetris(10, 20);
+        game.run();
     }
 }

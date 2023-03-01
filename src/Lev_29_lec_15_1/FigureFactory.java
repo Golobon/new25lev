@@ -1,5 +1,8 @@
 package Lev_29_lec_15_1;
 
+/**
+ * Класс FigureFactory отвечает за создание объектов-фигурок.
+ */
 public class FigureFactory {
     /**
      * Набор из шести шаблонов для фигурок

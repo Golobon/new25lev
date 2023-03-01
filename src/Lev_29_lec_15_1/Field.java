@@ -1,62 +1,60 @@
 package Lev_29_lec_15_1;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Класс Field описывает "поле клеток" игры Тетрис
+ */
 public class Field {
+    //ширина и высота
     private int width;
     private int height;
+
+    //матрица поля: 1 - клетка занята, 0 - свободна
     private int[][] matrix;
-    public int getWidth() { return width; }
-
-    public int getHeight() { return height; }
-
-    public int[][] getMatrix() { return matrix; }
 
     public Field(int width, int height) {
         this.width = width;
         this.height = height;
-        this.matrix = new int[height][width];
+        matrix = new int[height][width];
     }
 
-
-
-    public static void main(String[] args) {
-        Field field = new Field(5, 5);
-        for (int i = 0; i < field.height; i++) {
-            field.matrix[1][i] = i % 2;
-        }
-        for (int i = 0; i < field.height; i++) {
-            field.matrix[2][i] = 1;
-        }
-        for (int i = 0; i < field.height; i++) {
-            field.matrix[3][i] = 1;
-        }
-
-        System.out.println("Матрица ДО удаления");
-        field.purePrint();
-        field.removeFullLines();
-        System.out.println("Матрица ПОСЛЕ удаления");
-        field.purePrint();
+    public int getWidth() {
+        return width;
     }
 
-    void purePrint() {
-        System.out.println("--------------------------");
-        for (int y = 0; y < height; y++) {
-            for (int x = 0; x < width; x++) {
-                if (matrix[y][x] == 0 ){
-                    System.out.print(".");
-                } else {
-                    System.out.print("X");
-                }
-            }
-            System.out.println("\t\t\t" + matrix[y].toString());
-        }
-        System.out.println("--------------------------");
+    public int getHeight() {
+        return height;
     }
 
-    void print() {
+    public int[][] getMatrix() {
+        return matrix;
+    }
+
+    /**
+     * Метод возвращает значение, которое содержится в матрице с координатами (x,y)
+     * Если координаты за пределами матрицы, метод возвращает null.
+     */
+    public Integer getValue(int x, int y) {
+        if (x >= 0 && x < width && y >= 0 && y < height)
+            return matrix[y][x];
+
+        return null;
+    }
+
+    /**
+     * Метод устанавливает переданное значение(value) в ячейку матрицы с координатами (x,y)
+     */
+    public void setValue(int x, int y, int value) {
+        if (x >= 0 && x < width && y >= 0 && y < height)
+            matrix[y][x] = value;
+    }
+
+    /**
+     * Метод печатает на экран текущее содержание матрицы
+     */
+    public void print() {
         //Создаем массив, куда будем "рисовать" текущее состояние игры
         int[][] canvas = new int[height][width];
 
@@ -98,14 +96,20 @@ public class Field {
             }
             System.out.println();
         }
+
+
         System.out.println();
         System.out.println();
     }
+
+    /**
+     * Удаляем заполненные линии
+     */
     void removeFullLines() {
-    List<int[]> list = new ArrayList<>();
+        List<int[]> list = new ArrayList<>();
         for (int i = 0; i < matrix.length; i++) {
             if (check(matrix[i])) { list.add(matrix[i]); } }
-    int count = list.size() - 1;
+        int count = list.size() - 1;
         for (int i = matrix.length - 1; i >= 0; i--) {
             if (count >= 0) { matrix[i] = list.get(count--); }
             else matrix[i] = new int[width]; } }
@@ -114,14 +118,6 @@ public class Field {
         int y = 0;
         for (int i = 0 ; i < x.length; i++) { y += x[i]; }
         return y < width; }
-
-    Integer getValue(int x, int y){
-        if (x >= 0 && x < width && y >= 0 && y < height)
-            return matrix[y][x];
-        return null;
-    }
-    void setValue(int x, int y, int value){
-        if (x >= 0 && x < width && y >= 0 && y < height)
-            matrix[y][x] = value;
-    }
 }
+
+
