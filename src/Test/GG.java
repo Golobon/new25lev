@@ -1,18 +1,30 @@
 package Test;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
+
+/*
+Измерить сколько времени занимает 10 тысяч вставок для каждого списка
+*/
+
 public class GG {
     public static void main(String[] args) {
-        int[][] x = new int[3][3];
-        int y = 0;
+        System.out.println(getInsertTimeInMs(new ArrayList()));
+        System.out.println(getInsertTimeInMs(new LinkedList()));
+    }
 
-        for (int i = 0; i < x.length; i++) {
-            for (int j = 0; j < x[i].length; j++) {
-                x[i][j] = y++;
-                System.out.print(x[i][j] + " ");
-            }
-            System.out.println();
+    public static long getInsertTimeInMs(List list) {
+        Date startLinked = new Date();
+        insert10000(list);
+        Date finishLinked = new Date();
+        return finishLinked.getTime() - startLinked.getTime();
+    }
+
+    public static void insert10000(List list) {
+        for (int i = 0; i < 10000; i++) {
+            list.add(0, new Object());
         }
-        System.out.println(x[1][2]);
-
     }
 }
