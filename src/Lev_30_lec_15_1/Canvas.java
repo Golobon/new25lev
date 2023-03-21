@@ -1,5 +1,7 @@
 package Lev_30_lec_15_1;
 
+import java.util.Arrays;
+
 public class Canvas {
     private int width;
     private int height;
@@ -25,15 +27,32 @@ public class Canvas {
 
     public void setPoint(double x, double y, char c) {
         if (0 <= x && x < matrix[0].length && 0 <= y && y < matrix.length) {
-            matrix[(int)Math.round(y)][(int)Math.round(x)] = c;
+            matrix[(int) Math.round(y)][(int) Math.round(x)] = c;
         }
     }
 
     public void drawMatrix(double x, double y, int[][] matrix, char c) {
         for (int i = 0; i < matrix.length; i++) {
             for (int j = 0; j < matrix[i].length; j++) {
-                if (matrix[i][j] != 0) { setPoint(x + j, y + i, c); }
+                if (matrix[i][j] != 0) {
+                    setPoint(x + j, y + i, c);
+                }
             }
+        }
+    }
+    public void clear() {
+        for (int i = 0; i < matrix.length; i++) {
+            Arrays.fill(matrix[i], ' ');
+        }
+    }
+    public void print() {
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = 0; j < matrix[i].length; j++) {
+                System.out.println(matrix[i][j]);
+            }
+            if (i > matrix.length - 1) continue;
+            System.out.println();
+            System.out.println();
         }
     }
 }
