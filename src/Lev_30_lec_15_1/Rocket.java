@@ -1,17 +1,12 @@
 package Lev_30_lec_15_1;
 
 public class Rocket extends BaseObject {
-    public Rocket(double x, double y, double radius) {
-        super(x, y, radius);
+    public Rocket(double x, double y) {
+        super(x, y, 1);
     }
 
     @Override
-    public void draw(Canvas canvas) {
-
-    }
-
+    public void draw(Canvas canvas) { canvas.setPoint(x, y,'R'); }
     @Override
-    public void move() {
-
-    }
+    public void move() { y = y - 1; }
 }
