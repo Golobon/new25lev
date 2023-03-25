@@ -18,7 +18,7 @@ public class Solution {
 
 
     public static void main(String[] args) {
-        String expressionText = "5 + (3 + (6 * 5)) + 8";
+        String expressionText = "5 + (3 + 6 * 5)";
         List<Lexeme> lexemes = lexAnalyze(expressionText);
         LexemeBuffer lexemeBuffer = new LexemeBuffer(lexemes);
         System.out.println(expr(lexemeBuffer));
