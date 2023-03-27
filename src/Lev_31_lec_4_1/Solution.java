@@ -1,11 +1,11 @@
 package Lev_31_lec_4_1;
 
-import java.lang.ref.SoftReference;
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
 /*
-Мягкие ссылки
+Слабые ссылки
 */
 
 public class Solution {
@@ -30,8 +30,7 @@ public class Solution {
         Monkey monkey = new Monkey("Simka");
 
         //Add reference here
-
-        SoftReference<Monkey> reference = new SoftReference<>(monkey);
+        WeakReference<Monkey> reference = new WeakReference<>(monkey);
 
         helper.callGC();
 
