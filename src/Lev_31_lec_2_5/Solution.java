@@ -12,14 +12,15 @@ public class Solution {
 
     public static void moveRing(char a, char b, char c, int numRings) {
         //напишите тут ваш код
-        if (numRings < 11) {
-            switch (numRings) {
-                case 4 : { System.out.println("from A to B"); break; }
-                case 5 : { System.out.println("from A to C"); break; }
-                case 6 : { System.out.println("from B to C"); break; }
-                case 7 : { System.out.println("from A to B"); break; }
-                case 8 : { System.out.println("from C to A"); break; }
-                case 9 : { System.out.println("from C to B"); break; }
-                case 10 : { System.out.println("from A to B"); break; }
-            }
-            moveRing(a, b, c, ++numRings); } } }
+        if (numRings > 2) {
+            System.out.println("from " + a + " to " + b);
+            moveRing(a, c, b, --numRings);
+        }
+
+        if (numRings == 4) {
+            System.out.println("from " + a + " to " + b);
+            moveRing(a, b, c, --numRings);
+            System.out.println("from " + a + " to " + b);
+        }
+
+        moveRing(a, c, b, --numRings); } }
